@@ -10,7 +10,7 @@ struct FontSetting{
 	std::string glyph_ranges_fn;
 	double size_pixels = 20;
 };
-std::map<std::string, int> fontMap;
+static std::map<std::string, int> fontMap;
 
 int SetCustomFont(lua_State* L) {
 	std::string name = luaL_checkstring(L, 1);
@@ -23,6 +23,29 @@ int SetCustomFont(lua_State* L) {
 	lua_pushboolean(L, flag);
 	return 1;
 }
+
+int GetCustomFontIndex(lua_State* L) {
+	std::string name = luaL_checkstring(L, 1);
+	if (fontMap.count(name)) {
+		auto& io = ImGui::GetIO();
+		lua_pushinteger(L, fontMap[name]);
+		return 1;
+	}
+	return 0;
+}
+
+int SetFontForIndex(lua_State* L) {
+	int i = luaL_checkinteger(L, 1);
+	bool flag = false;
+	auto& io = ImGui::GetIO();
+	if (i < io.Fonts->Fonts.size()) {
+		flag = true;
+		ImGui::PushFont(io.Fonts->Fonts[i]);
+	}
+	lua_pushboolean(L, flag);
+	return 1;
+}
+
 static bplib::BreakPoint* lookNewstate = nullptr;
 
 void lookLuaNewstate(PCONTEXT cont) {
@@ -35,6 +58,10 @@ void lookLuaNewstate(PCONTEXT cont) {
 			lua_State* L = (lua_State*)cont->Eax;
 			lua_pushcfunction(L, SetCustomFont);
 			lua_setglobal(L, "SetCustomFont");
+			lua_pushcfunction(L, GetCustomFontIndex);
+			lua_setglobal(L, "GetCustomFontIndex");
+			lua_pushcfunction(L, SetFontForIndex);
+			lua_setglobal(L, "SetFontForIndex");
 		});
 	}
 }
