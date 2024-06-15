@@ -9,4 +9,4 @@ if scale == nil then
     scale = 1
 end
 
-a = Cpp.LoadFonts(scale)
+local a = Cpp.LoadFonts(scale)

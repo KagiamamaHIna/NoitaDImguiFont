@@ -55,6 +55,8 @@ int LoadFonts(lua_State* L) {
 	Monitor->AddPointCB((LPVOID)ptr.p, [](PCONTEXT cont) {
 		lookNewstate->RemovePoint((LPVOID)luaL_newstate);
 		lua_State* loadData = luaL_newstate();
+		lookNewstate->SetPoint((LPVOID)luaL_newstate);
+		lookNewstate->AddPointCB((LPVOID)luaL_newstate, lookLuaNewstate);
 		auto& io = ImGui::GetIO();
 		std::filesystem::directory_iterator dir_iter(std::filesystem::current_path().string() + "/mods/");
 		for (const auto& entry : dir_iter) {
@@ -143,8 +145,6 @@ int LoadFonts(lua_State* L) {
 			}
 			lua_close(loadData);
 		}
-		lookNewstate->SetPoint((LPVOID)luaL_newstate);
-		lookNewstate->AddPointCB((LPVOID)luaL_newstate, lookLuaNewstate);
 	});
 	lookNewstate->SetPoint((LPVOID)luaL_newstate);
 	lookNewstate->AddPointCB((LPVOID)luaL_newstate, lookLuaNewstate);
