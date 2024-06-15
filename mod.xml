@@ -1,0 +1,6 @@
+<Mod
+	name="Dear Font Loader"
+	description="Load order must be immediately after NoitaDearImGui\n加载顺序必须紧随NoitaDearImGui之后"
+	request_no_api_restrictions="1" 
+> 
+</Mod>
