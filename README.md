@@ -1,3 +1,5 @@
+# Dear Noita ImGui Font Loader
+
 This is a noita mod for dynamically loading fonts for use by NoitaDearImGui, an example can be found in font-example-mod
 
 这是一个用于动态加载字体给NoitaDearImGui使用的Noita模组，示例可见font-example-mod
